@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Técnica - Renato Vicente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h2 {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            border-color: #3498db;
+            transform: translateY(-3px);
+        }
+        
+        .tech-item h4 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .phase-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12, #e74c3c);
+        }
+        
+        .phase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .phase-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .phase-details {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .phase-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .phase-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #27ae60;
+        }
+        
+        .phase-time {
+            background: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .summary-table th {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .summary-table td {
+            padding: 18px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+        
+        .summary-table tr:hover td {
+            background-color: #f8f9fa;
+        }
+        
+        .summary-table .total-row {
+            background: #2c3e50;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(116, 185, 255, 0.3);
+        }
+        
+        .highlight-box h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .signature {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .signature-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .signature-title {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .list-modern {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .list-modern li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .list-modern li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .list-modern li:hover {
+            color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .phase-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                background: white;
+            }
+            
+            .section:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .phase-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+        
+        /* Proteção contra alterações */
+        .protected-content {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Desabilita ferramentas de desenvolvedor */
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Proposta Técnica e Comercial</h1>
+            <h2>Desenvolvimento de API Monolítica em Node.js + TypeScript</h2>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <p style="font-size: 1.1rem; margin-bottom: 20px;"><strong>Prezado Lucas Monteiro,</strong></p>
+                <p>Apresento a seguir a proposta para o desenvolvimento de uma API monolítica com foco em gestão laboratorial, utilizando tecnologias modernas e boas práticas de arquitetura de software.</p>
+            </div>
+            
+            <div class="section">
+                <h3>🎯 Objetivo do Projeto</h3>
+                <p>Desenvolver uma solução robusta e escalável que permita a gestão completa do fluxo de:</p>
+                <ul class="list-modern">
+                    <li>Agendamentos</li>
+                    <li>Orçamentos</li>
+                    <li>Atendimento</li>
+                    <li>Pagamentos</li>
+                    <li>Entrega de laudos médicos</li>
+                </ul>
+                <p>Tudo isso por meio de uma API RESTful, com integração a serviços externos como OCR, Pix, e-mail e WhatsApp.</p>
+            </div>
+            
+            <div class="section">
+                <h3>🔧 Tecnologias Utilizadas</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h4>Backend</h4>
+                        <p>Node.js, TypeScript, Express</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>Arquitetura</h4>
+                        <p>DDD + Hexagonal</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>Banco de Dados</h4>
+                        <p>PostgreSQL</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>Integrações</h4>
+                        <p>Pix, OCR, E-mail, WhatsApp, APIs externas</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>📋 Escopo do MVP Inicial</h3>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Fase 1 – Setup e Cadastros Básicos</div>
+                    <div class="phase-details">
+                        • Estruturação do projeto (DDD + Hexagonal)<br>
+                        • Cadastro de clientes (PF/PJ), convênios, exames, unidades e médicos<br>
+                        • Autenticação com JWT e refresh token
+                    </div>
+                    <div class="phase-footer">
+                        <span class="phase-time">30 horas</span>
+                        <span class="phase-price">R$ 6.750</span>
+                    </div>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Fase 2 – Agendamento e Orçamentos</div>
+                    <div class="phase-details">
+                        • Agendamento com regras de disponibilidade e convênios<br>
+                        • Geração de orçamentos via OCR do pedido médico<br>
+                        • Precificação por tipo de cliente
+                    </div>
+                    <div class="phase-footer">
+                        <span class="phase-time">60 horas</span>
+                        <span class="phase-price">R$ 13.500</span>
+                    </div>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Fase 3 – Atendimento e Ordens de Serviço</div>
+                    <div class="phase-details">
+                        • Geração de ordens de serviço<br>
+                        • Check-in e controle de fila<br>
+                        • Pagamento via Pix com QR Code dinâmico
+                    </div>
+                    <div class="phase-footer">
+                        <span class="phase-time">80 horas</span>
+                        <span class="phase-price">R$ 18.000</span>
+                    </div>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-title">Fase 4 – Geração e Entrega de Laudos</div>
+                    <div class="phase-details">
+                        • Estrutura configurável de laudos<br>
+                        • Upload e digitação de resultados com assinatura digital<br>
+                        • Envio automático de notificações e acesso por portal
+                    </div>
+                    <div class="phase-footer">
+                        <span class="phase-time">50 horas</span>
+                        <span class="phase-price">R$ 11.250</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>💰 Resumo Financeiro</h3>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Fase</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fase 1 – Setup & Cadastros</td>
+                            <td>R$ 6.750</td>
+                        </tr>
+                        <tr>
+                            <td>Fase 2 – Agendamento/Orçamentos</td>
+                            <td>R$ 13.500</td>
+                        </tr>
+                        <tr>
+                            <td>Fase 3 – Atendimento/OS</td>
+                            <td>R$ 18.000</td>
+                        </tr>
+                        <tr>
+                            <td>Fase 4 – Laudos e Portal</td>
+                            <td>R$ 11.250</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td>Total</td>
+                            <td>R$ 49.500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>⏱️ Disponibilidade e Cronograma</h4>
+                <p>Disponibilidade de 2 a 4 horas por dia, com entregas por fase e validações ao final de cada uma.</p>
+            </div>
+            
+            <div class="section">
+                <h3>📋 Condições</h3>
+                <ul class="list-modern">
+                    <li>Valor hora técnica: R$ 225</li>
+                    <li>Pagamento: 50% na contratação e 50% na entrega da fase</li>
+                    <li>Reuniões e testes com cliente: incluídos</li>
+                    <li>Escopos extras ou integrações não previstas: orçados à parte</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h3>🎯 Considerações Finais</h3>
+                <p>Com mais de 10 anos de experiência em desenvolvimento de software e arquitetura de soluções, entrego um trabalho sólido, limpo, documentado e preparado para futuras evoluções.</p>
+            </div>
+            
+            <div class="signature protected-content">
+                <p style="margin-bottom: 30px; color: #7f8c8d;">Atenciosamente,</p>
+                <div class="signature-name">Renato Vicente</div>
+                <div class="signature-title">Arquiteto de Software</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Proteção contra alterações
+        (function() {
+            'use strict';
+            
+            // Desabilita F12, Ctrl+Shift+I, Ctrl+U
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                    (e.ctrlKey && e.key === 'u')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Desabilita menu de contexto
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Desabilita seleção de texto em elementos protegidos
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.closest('.protected-content')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Marca d'água invisível
+            const watermark = document.createElement('div');
+            watermark.textContent = 'Proposta Técnica - Renato Vicente - ' + new Date().toISOString();
+            watermark.style.position = 'fixed';
+            watermark.style.bottom = '0';
+            watermark.style.right = '0';
+            watermark.style.fontSize = '1px';
+            watermark.style.color = 'transparent';
+            watermark.style.zIndex = '-1';
+            document.body.appendChild(watermark);
+            
+            // Detecta tentativas de abertura do dev tools
+            let devtools = {
+                open: false,
+                orientation: null
+            };
+            
+            const threshold = 160;
+            
+            setInterval(function() {
+                if (window.outerHeight - window.innerHeight > threshold || 
+                    window.outerWidth - window.innerWidth > threshold) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        console.clear();
+                        console.log('%cEste documento está protegido contra alterações.', 'color: red; font-size: 20px; font-weight: bold;');
+                    }
+                } else {
+                    devtools.open = false;
+                }
+            }, 500);
+            
+            // Limpa console periodicamente
+            setInterval(function() {
+                console.clear();
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>
